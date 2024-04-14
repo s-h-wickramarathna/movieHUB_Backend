@@ -46,10 +46,10 @@ export class UsersService {
     try {
       const user = await this.usersRepository.find({
         where: [
-            { email: Like(`%${emailOrMobile}%`) },
-            { mobile: Like(`%${emailOrMobile}%`) }
+          { email: Like(`%${emailOrMobile}%`) },
+          { mobile: Like(`%${emailOrMobile}%`) }
         ]
-    });
+      });
 
       if (user) {
         console.log('Found user:', user);
@@ -65,11 +65,53 @@ export class UsersService {
 
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(userid: number, updateUserDto: UpdateUserDto) {
+    try {
+
+      const existUser = await this.usersRepository.findOneBy({ id: userid });
+
+      if (!existUser) {
+        return undefined;
+      }
+
+      existUser.firstName = updateUserDto.firstName;
+      existUser.lastName = updateUserDto.lastName;
+      existUser.gender_id = updateUserDto.gender_id;
+      existUser.mobile = updateUserDto.mobile;
+
+      const updatedUser = this.usersRepository.save(existUser);
+      return updatedUser;
+
+    } catch (error) {
+      console.error('Error while updating user:', error);
+      return undefined;
+    }
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async changeStatus(id: number) {
+    try {
+
+      const existUser = await this.usersRepository.findOneBy({ id });
+
+      if (!existUser) {
+        return undefined;
+      }
+
+      if(existUser.status_id == "1"){
+        existUser.status_id = "2";
+
+      }else{
+        existUser.status_id = "1";
+      }
+
+      const updatedUser = this.usersRepository.save(existUser);
+      return updatedUser;
+
+    } catch (error) {
+      console.error('Error while updating user:', error);
+      return undefined;
+    }
   }
+
 }
