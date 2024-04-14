@@ -4,8 +4,19 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MoviesService {
-  create(createMovieDto: CreateMovieDto) {
-    return 'This action adds a new movie';
+  create(file: Express.Multer.File, createMovieDto: CreateMovieDto) {
+    const movieUrl = `http://localhost:3000/${file.path}`;
+    // Save movie URL to MySQL database
+    // const savedMovie = await this.movieRepository.save({ url: movieUrl });
+
+    const updatedUrl = movieUrl.replace(/\\/g, '/');
+
+    const movie = {
+      url: updatedUrl,
+      dto: createMovieDto
+    }
+
+    return movie;
   }
 
   findAll() {

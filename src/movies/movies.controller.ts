@@ -8,10 +8,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.moviesService.create(createMovieDto);
-  }
+  // @Post()
+  // create(@Body() createMovieDto: CreateMovieDto) {
+  //   return this.moviesService.create(createMovieDto);
+  // }
 
   @Get()
   findAll() {
@@ -35,7 +35,8 @@ export class MoviesController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() creatMovieDto: CreateMovieDto) {
+    const movieUrl = await this.moviesService.create(file, creatMovieDto);
+    return { url: movieUrl };
   }
 }
