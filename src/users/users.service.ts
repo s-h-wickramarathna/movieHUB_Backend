@@ -11,7 +11,7 @@ import { SearchUserDTO } from './dto/search-user.dto';
 export class UsersService {
 
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User) private usersRepository: Repository<User>
   ) { }
 
   async create(createUserDto: CreateUserDto) {

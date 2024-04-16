@@ -1,6 +1,7 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsNumberString } from "class-validator";
 
 export class CreateMovieDto {
+
     @IsNotEmpty()
     name: string;
 
@@ -24,5 +25,9 @@ export class CreateMovieDto {
 
     @IsNotEmpty()
     production: string;
+
+    @IsNotEmpty()
+    @IsNumberString()
+    status_id: number
 
 }

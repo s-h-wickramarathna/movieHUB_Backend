@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { MoviesModule } from './movies/movies.module';
+import { Movie } from './movies/entities/movie.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { MoviesModule } from './movies/movies.module';
       password: '123456',
       database: 'movieHUB',
       entities: [
-        User
+        User,
+        Movie,
       ],
       synchronize: false,
     }),

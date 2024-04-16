@@ -4,19 +4,12 @@ import { MoviesController } from './movies.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Movie } from './entities/movie.entity';
 
 @Module({
   imports: [
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './uploads/movies',
-        filename: (req, file, callback) => {
-          const uniqueSuffix = Date.now();
-          const extname = file.originalname;
-          callback(null, uniqueSuffix + '-' + extname);
-        },
-      }),
-    }),
+    TypeOrmModule.forFeature([Movie]),
   ],
   controllers: [MoviesController],
   providers: [MoviesService],
