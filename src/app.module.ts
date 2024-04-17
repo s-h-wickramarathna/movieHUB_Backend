@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/entities/movie.entity';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Movie } from './movies/entities/movie.entity';
     }),
     UsersModule,
     MoviesModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
