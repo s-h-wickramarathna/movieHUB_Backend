@@ -11,6 +11,7 @@ import { Movie } from './entities/movie.entity';
   imports: [
     TypeOrmModule.forFeature([Movie]),
   ],
+  exports:[MoviesService],
   controllers: [MoviesController],
   providers: [MoviesService],
 })

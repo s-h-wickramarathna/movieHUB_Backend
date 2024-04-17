@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
 import { UpdateDashboardDto } from './dto/update-dashboard.dto';
+import { UsersService } from 'src/users/users.service';
+import { MoviesService } from 'src/movies/movies.service';
 
 @Injectable()
 export class DashboardService {
-  create(createDashboardDto: CreateDashboardDto) {
-    return 'This action adds a new dashboard';
+
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly movieService: MoviesService
+  ){}
+
+  async findAll() {
+    const user = await this.usersService.getActive_AllUsers();
+    const movie = await this.movieService.getActive_AllMovies();
+
+    return {user,movie};
   }
 
-  findAll() {
-    return `This action returns all dashboard`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} dashboard`;
-  }
-
-  update(id: number, updateDashboardDto: UpdateDashboardDto) {
-    return `This action updates a #${id} dashboard`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dashboard`;
-  }
 }

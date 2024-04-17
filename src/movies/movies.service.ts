@@ -136,4 +136,22 @@ export class MoviesService {
       return undefined;
     }
   }
+
+  async getActive_AllMovies(){
+    const [activeMovieCount, allMovieCount] = await Promise.all([
+      this.movieRepository.count({ where: { status_id: parseInt('1') } }),
+      this.movieRepository.count(),
+     
+  ]);
+
+  const user = {
+    activeMovieCount,
+    allMovieCount,
+
+  }
+
+  return user;
+
+  }
+
 }

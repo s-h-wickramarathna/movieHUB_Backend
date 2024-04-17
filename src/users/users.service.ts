@@ -114,4 +114,21 @@ export class UsersService {
     }
   }
 
+  async getActive_AllUsers(){
+    const [activeUserCount, allUsersCount] = await Promise.all([
+      this.usersRepository.count({ where: { status_id: '1' } }),
+      this.usersRepository.count(),
+     
+  ]);
+
+  const user = {
+    activeUserCount,
+    allUsersCount,
+
+  }
+
+  return user;
+
+  }
+
 }
