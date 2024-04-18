@@ -9,6 +9,7 @@ import { Movie } from './movies/entities/movie.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FilterModule } from './filter/filter.module';
 import { ShowMoviesModule } from './show-movies/show-movies.module';
+import { Review } from './movies/entities/review.entity';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ShowMoviesModule } from './show-movies/show-movies.module';
       entities: [
         User,
         Movie,
+        Review
       ],
       synchronize: false,
     }),

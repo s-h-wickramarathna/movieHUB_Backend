@@ -30,4 +30,7 @@ export class CreateMovieDto {
     @IsNumberString()
     status_id: number
 
+    @IsNotEmpty()
+    url: string;
+
 }
