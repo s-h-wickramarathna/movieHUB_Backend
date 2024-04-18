@@ -7,6 +7,7 @@ import { User } from './users/entities/user.entity';
 import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/entities/movie.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { FilterModule } from './filter/filter.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     UsersModule,
     MoviesModule,
     DashboardModule,
+    FilterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
