@@ -8,6 +8,7 @@ import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/entities/movie.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FilterModule } from './filter/filter.module';
+import { ShowMoviesModule } from './show-movies/show-movies.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { FilterModule } from './filter/filter.module';
     MoviesModule,
     DashboardModule,
     FilterModule,
+    ShowMoviesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
