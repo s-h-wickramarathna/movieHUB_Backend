@@ -34,7 +34,4 @@ export class Movie {
 
     @Column()
     status_id: number;
-
-    @Column()
-    url: string;
 }

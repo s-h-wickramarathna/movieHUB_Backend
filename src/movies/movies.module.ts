@@ -6,11 +6,10 @@ import { diskStorage } from 'multer';
 import path from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
-import { Review } from './entities/review.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Movie, Review]),
+    TypeOrmModule.forFeature([Movie]),
   ],
   exports:[MoviesService],
   controllers: [MoviesController],

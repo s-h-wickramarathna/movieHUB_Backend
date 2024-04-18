@@ -5,13 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Like, Repository } from 'typeorm';
 import { SearchMovieDTO } from './dto/search-movie-dto';
-import { Review } from './entities/review.entity';
 
 @Injectable()
 export class MoviesService {
 
-  constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>, 
-  @InjectRepository(Review) private readonly reviewRepository: Repository<Review>) { }
+  constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>) { }
 
   async create(file: Express.Multer.File, createMovieDto: CreateMovieDto) {
     const movieUrl = `http://localhost:3000/${file.path}`;
@@ -39,17 +37,9 @@ export class MoviesService {
         cast: createMovieDto.cast,
         production: createMovieDto.production,
         status_id: createMovieDto.status_id,
-        url: createMovieDto.url,
       });
 
       await this.movieRepository.save(movie);
-
-      const review = await this.reviewRepository.create({
-        watchCount: 0,
-        movie: movie
-      });
-
-      await this.reviewRepository.save(review);
 
       return movie;
     }
