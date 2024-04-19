@@ -29,7 +29,7 @@ export class UsersService {
       const user = this.usersRepository.create(createUserDto);
       await this.usersRepository.save(user);
 
-      return user;
+      return true;
 
     }
   }
@@ -41,7 +41,6 @@ export class UsersService {
   async findOne(searchUserDto: SearchUserDTO): Promise<User[]> | undefined {
 
     const emailOrMobile: string = searchUserDto.searchText;
-    console.log(searchUserDto.searchText)
 
     try {
       const user = await this.usersRepository.find({
@@ -52,12 +51,34 @@ export class UsersService {
       });
 
       if (user) {
-        console.log('Found user:', user);
         return user;
+
       } else {
         console.log('User not found');
         return undefined;
       }
+    } catch (error) {
+      console.error('Error while searching for user:', error);
+      return undefined;
+    }
+
+  }
+  async findById(id: number): Promise<User> | undefined {
+
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+
+      if (user) {
+
+        delete user.password;
+        return user;
+
+      } else {
+        console.log('User not found');
+        return undefined;
+
+      }
+
     } catch (error) {
       console.error('Error while searching for user:', error);
       return undefined;
@@ -78,9 +99,11 @@ export class UsersService {
       existUser.lastName = updateUserDto.lastName;
       existUser.gender_id = updateUserDto.gender_id;
       existUser.mobile = updateUserDto.mobile;
+      existUser.status_id = updateUserDto.status_id;
 
       const updatedUser = this.usersRepository.save(existUser);
-      return updatedUser;
+      delete (await updatedUser).password
+      return updatedUser ? true : false;
 
     } catch (error) {
       console.error('Error while updating user:', error);
@@ -98,10 +121,10 @@ export class UsersService {
         return undefined;
       }
 
-      if(existUser.status_id == "1"){
+      if (existUser.status_id == "1") {
         existUser.status_id = "2";
 
-      }else{
+      } else {
         existUser.status_id = "1";
       }
 
@@ -114,20 +137,20 @@ export class UsersService {
     }
   }
 
-  async getActive_AllUsers(){
+  async getActive_AllUsers() {
     const [activeUserCount, allUsersCount] = await Promise.all([
       this.usersRepository.count({ where: { status_id: '1' } }),
       this.usersRepository.count(),
-     
-  ]);
 
-  const user = {
-    activeUserCount,
-    allUsersCount,
+    ]);
 
-  }
+    const user = {
+      activeUserCount,
+      allUsersCount,
 
-  return user;
+    }
+
+    return user;
 
   }
 

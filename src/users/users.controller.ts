@@ -24,6 +24,11 @@ export class UsersController {
     return this.usersService.findOne(searchUserDto);
   }
 
+  @Get('find/:id')
+  findById(@Param('id') id: number): Promise<User> | undefined {
+    return this.usersService.findById(id);
+  }
+
   @Patch('update/:id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
