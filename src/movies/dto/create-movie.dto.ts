@@ -23,11 +23,14 @@ export class CreateMovieDto {
     @IsNotEmpty()
     cast: string;
 
-    @IsNotEmpty()
+    @IsNotEmpty() 
     production: string;
 
     @IsNotEmpty()
     @IsNumberString()
     status_id: number
+
+    @IsNotEmpty() 
+    url: string;
 
 }

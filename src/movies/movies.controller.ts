@@ -40,7 +40,7 @@ export class MoviesController {
     limits: {
       fileSize: 1024 * 1024 * 10, // 10MB
     },
-  }))
+  })) 
 
   async uploadMovie(@UploadedFile() file: Express.Multer.File, @Body() creatMovieDto: CreateMovieDto) {
     if (!file) {
@@ -70,9 +70,6 @@ export class MoviesController {
       },
     }))
   async updateMovie(@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @Body() updateMovieDto: UpdateMovieDto){
-    if (!file) {
-      throw new HttpException('File is required', HttpStatus.BAD_REQUEST);
-    }
     const movie = await this.moviesService.update(id, file, updateMovieDto);
     return movie;
   }
@@ -80,6 +77,11 @@ export class MoviesController {
   @Get('changeStatus/:id')
   changeStatus(@Param('id') id: number) {
     return this.moviesService.changeStatus(+id);
+  }
+
+  @Get('movie/:id')
+  getMovie(@Param('id') id: number) {
+    return this.moviesService.findOneById(id);
   }
 
   }

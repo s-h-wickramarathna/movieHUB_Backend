@@ -37,6 +37,7 @@ export class MoviesService {
         cast: createMovieDto.cast,
         production: createMovieDto.production,
         status_id: createMovieDto.status_id,
+        url: createMovieDto.url
       });
 
       await this.movieRepository.save(movie);
@@ -75,9 +76,34 @@ export class MoviesService {
 
   }
 
+  async findOneById(id: number): Promise<Movie> | undefined {
+
+    try {
+      const movie = await this.movieRepository.findOne({ where: { id } });
+
+      if (movie) {
+        console.log('Found Movie:', movie);
+        return movie;
+      } else {
+        console.log('Movie not found');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error while searching for Movie:', error);
+      return undefined;
+    }
+
+  }
+
   async update(id: string, file: Express.Multer.File, updateMovieDto: UpdateMovieDto) {
-    const movieUrl = `http://localhost:3000/${file.path}`;
-    const updatedUrl = movieUrl.replace(/\\/g, '/');
+    let movieUrl;
+    let updatedUrl;
+
+    if (file) {
+      movieUrl = `http://localhost:3000/${file.path}`;
+      updatedUrl = movieUrl.replace(/\\/g, '/');
+    }
+
 
     try {
       const existMovie = await this.movieRepository.findOne({
@@ -89,7 +115,9 @@ export class MoviesService {
       if (existMovie) {
 
         existMovie.name = updateMovieDto.name;
-        existMovie.img = updatedUrl;
+        if (file) {
+          existMovie.img = updatedUrl;
+        }
         existMovie.description = updateMovieDto.description;
         existMovie.duration = updateMovieDto.duration;
         existMovie.released = updateMovieDto.released;
@@ -121,10 +149,10 @@ export class MoviesService {
         return undefined;
       }
 
-      if(existMovie.status_id == 1){
+      if (existMovie.status_id == 1) {
         existMovie.status_id = 2;
 
-      }else{
+      } else {
         existMovie.status_id = 1;
       }
 
@@ -137,20 +165,20 @@ export class MoviesService {
     }
   }
 
-  async getActive_AllMovies(){
+  async getActive_AllMovies() {
     const [activeMovieCount, allMovieCount] = await Promise.all([
       this.movieRepository.count({ where: { status_id: parseInt('1') } }),
       this.movieRepository.count(),
-     
-  ]);
 
-  const user = {
-    activeMovieCount,
-    allMovieCount,
+    ]);
 
-  }
+    const user = {
+      activeMovieCount,
+      allMovieCount,
 
-  return user;
+    }
+
+    return user;
 
   }
 
